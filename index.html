@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>I Wayan Radea — Portfolio</title>
+  <meta name="description" content="I Wayan Radea — Video Editor Magang & Frontend Developer. Dark futuristic portfolio with neon glow." />
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#02020a;
+      --card:#0b0b12;
+      --muted:#9aa3b2;
+      --neon:#00aaff; /* listrik blue */
+      --neon-2:#39f; /* extra */
+      --glass: rgba(255,255,255,0.03);
+      --glass-2: rgba(0,170,255,0.06);
+      --radius:16px;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1200px 700px at 10% 10%, rgba(0,170,255,0.03), transparent 8%),
+                  radial-gradient(900px 500px at 90% 90%, rgba(57,0,255,0.02), transparent 8%),
+                  var(--bg);
+      color:#e6eef7;
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      overflow-x:hidden;
+    }
+
+    /* Canvas particle fills screen */
+    #particles {
+      position:fixed;
+      inset:0;
+      z-index:0;
+      pointer-events:none;
+      mix-blend-mode:screen;
+      opacity:0.9;
+    }
+
+    header{
+      position:fixed;
+      left:0;right:0;top:16px;
+      margin:0 auto;
+      z-index:40;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      width:calc(100% - 48px);
+      max-width:1200px;
+      padding:12px 20px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(0,170,255,0.08);
+      border-radius:14px;
+      backdrop-filter: blur(8px) saturate(120%);
+      box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+    }
+
+    .brand{
+      display:flex; gap:12px; align-items:center;
+    }
+
+    .logo {
+      width:48px; height:48px;
+      display:grid; place-items:center;
+      border-radius:10px;
+      background: linear-gradient(135deg, rgba(0,170,255,0.06), rgba(57,0,255,0.03));
+      border:1px solid rgba(0,170,255,0.12);
+      box-shadow: 0 6px 18px rgba(0,170,255,0.04), inset 0 -6px 18px rgba(0,0,0,0.6);
+      padding:6px;
+    }
+
+    .brand h1{
+      font-size:1rem; margin:0;
+      letter-spacing:0.6px;
+      color:var(--neon);
+    }
+    .brand p{margin:0; color:var(--muted); font-size:0.78rem}
+
+    nav{display:flex; gap:12px; align-items:center}
+    nav a{
+      color:var(--muted); text-decoration:none; font-weight:600; font-size:0.9rem;
+      padding:8px 12px; border-radius:10px; transition:0.22s;
+    }
+    nav a:hover{ color:#fff; background:linear-gradient(90deg, rgba(0,170,255,0.06), rgba(57,0,255,0.04)); box-shadow:0 6px 20px rgba(0,170,255,0.06); transform:translateY(-2px)}
+
+    /* Hero */
+    .hero{
+      position:relative;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      z-index:10;
+      padding:120px 20px 60px;
+    }
+    .container{
+      width:calc(100% - 48px);
+      max-width:1200px;
+      margin:0 auto;
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:36px;
+      align-items:center;
+    }
+
+    /* left - intro */
+    .intro{
+      padding:28px;
+    }
+    .eyebrow{
+      display:inline-flex; gap:10px; align-items:center; margin-bottom:18px;
+    }
+    .chip{
+      font-size:0.8rem; color:var(--neon); background:linear-gradient(90deg, rgba(0,170,255,0.06), rgba(57,0,255,0.03));
+      padding:8px 12px; border-radius:999px; border:1px solid rgba(0,170,255,0.12);
+      box-shadow: 0 4px 18px rgba(0,170,255,0.04);
+    }
+    h2{
+      font-size:2.4rem; margin:8px 0 6px; line-height:1.02;
+      text-shadow: 0 8px 30px rgba(0,170,255,0.06);
+    }
+    h3{ margin:0 0 18px; font-weight:500; color:var(--muted); font-size:1.05rem }
+
+    p.lead{
+      color:#c6d7ea; max-width:60ch; line-height:1.6; margin-bottom:20px;
+      opacity:0.95;
+    }
+
+    .cta{
+      display:flex; gap:14px; align-items:center;
+    }
+
+    .btn{
+      --padx:18px;
+      display:inline-grid;
+      place-items:center;
+      padding:12px var(--padx);
+      border-radius:12px;
+      text-decoration:none;
+      font-weight:700;
+      letter-spacing:0.4px;
+      cursor:pointer;
+      transition:all .22s ease;
+      border: 1px solid transparent;
+    }
+
+    .btn-primary{
+      background: linear-gradient(90deg, rgba(0,170,255,0.12), rgba(57,0,255,0.08));
+      color:var(--neon);
+      border:1px solid rgba(0,170,255,0.18);
+      box-shadow: 0 10px 40px rgba(0,170,255,0.06), 0 0 20px rgba(0,170,255,0.06);
+    }
+    .btn-primary:hover{
+      transform:translateY(-4px) scale(1.01);
+      box-shadow: 0 18px 60px rgba(0,170,255,0.12), 0 0 40px rgba(0,170,255,0.12);
+      color:#eaf7ff;
+      background: linear-gradient(90deg, rgba(0,170,255,0.16), rgba(57,0,255,0.12));
+    }
+
+    .btn-ghost{
+      background:transparent;
+      color:var(--muted);
+      border:1px solid rgba(255,255,255,0.03);
+      backdrop-filter: blur(6px);
+    }
+    .btn-ghost:hover{
+      color:#fff; border-color:rgba(0,170,255,0.12);
+    }
+
+    /* right - card */
+    .card{
+      padding:18px;
+      border-radius:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border: 1px solid rgba(0,170,255,0.06);
+      box-shadow: 0 6px 30px rgba(0,0,0,0.6);
+      display:flex; gap:16px; align-items:center;
+    }
+    .avatar{
+      min-width:120px; width:120px; height:120px; border-radius:14px; overflow:hidden;
+      border:1px solid rgba(0,170,255,0.12);
+      box-shadow: 0 12px 40px rgba(0,170,255,0.04), inset 0 -10px 30px rgba(0,0,0,0.6);
+      background: linear-gradient(135deg, rgba(0,170,255,0.05), rgba(57,0,255,0.02));
+      display:grid; place-items:center;
+    }
+    .avatar img{width:100%; height:100%; object-fit:cover; display:block}
+
+    .meta h4{ margin:0; font-size:1.05rem; color:var(--neon) }
+    .meta p{ margin:6px 0 0; color:var(--muted); font-size:0.9rem }
+
+    /* projects preview */
+    .projects{
+      margin-top:36px;
+      display:grid; gap:14px;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    .proj{
+      padding:14px; border-radius:12px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(0,0,0,0.06));
+      border:1px solid rgba(255,255,255,0.02);
+      display:flex; flex-direction:column; gap:8px;
+      transition: transform .22s ease, box-shadow .22s ease;
+    }
+    .proj:hover{ transform: translateY(-8px); box-shadow: 0 18px 40px rgba(0,170,255,0.06) }
+    .tag{ font-size:0.75rem; color:var(--neon); font-weight:700 }
+    .proj p{ color:var(--muted); font-size:0.85rem; margin:0 }
+
+    /* sections */
+    section{ padding:80px 20px; z-index:8; position:relative; }
+    .section-inner{ width:calc(100% - 48px); max-width:1200px; margin:0 auto }
+
+    /* contact */
+    .contact-card{
+      margin-top:24px;
+      display:flex; gap:12px; align-items:center; justify-content:space-between;
+      background: linear-gradient(90deg, rgba(0,170,255,0.02), rgba(57,0,255,0.01));
+      padding:18px; border-radius:12px; border:1px solid rgba(0,170,255,0.06);
+    }
+
+    footer{
+      padding:26px 20px; text-align:center; color:var(--muted);
+      border-top:1px solid rgba(0,170,255,0.03);
+    }
+
+    /* neon pulse effect */
+    .neon {
+      position:relative;
+      color:var(--neon);
+      text-shadow:
+        0 0 6px rgba(0,170,255,0.6),
+        0 0 20px rgba(0,170,255,0.14);
+      animation: neonPulse 2.6s infinite;
+    }
+    @keyframes neonPulse {
+      0% { text-shadow: 0 0 6px rgba(0,170,255,0.4), 0 0 20px rgba(0,170,255,0.06); transform: translateY(0)}
+      50% { text-shadow: 0 0 12px rgba(0,170,255,0.65), 0 0 36px rgba(0,170,255,0.12); transform: translateY(-2px)}
+      100% { text-shadow: 0 0 6px rgba(0,170,255,0.4), 0 0 20px rgba(0,170,255,0.06); transform: translateY(0)}
+    }
+
+    /* responsive */
+    @media (max-width:980px){
+      .container{ grid-template-columns: 1fr; padding-bottom:40px }
+      .projects{ grid-template-columns: repeat(2, 1fr) }
+      header{ width:calc(100% - 28px) }
+    }
+    @media (max-width:560px){
+      h2{ font-size:1.7rem }
+      .projects{ grid-template-columns: 1fr }
+      .card{ flex-direction:row; gap:12px }
+      .avatar{ width:88px; height:88px }
+      nav{ display:none }
+      header{ padding:10px 12px }
+    }
+  </style>
+</head>
+<body>
+  <!-- LOADER -->
+  <div class="terminal-loader" id="loader">
+    <div class="terminal-header">
+      <div class="terminal-title">Status</div>
+      <div class="terminal-controls">
+        <div class="control close"></div>
+        <div class="control minimize"></div>
+        <div class="control maximize"></div>
+      </div>
+    </div>
+    <div class="text">Loading...</div>
+  </div>
+
+
+  <!-- Particle canvas -->
+  <canvas id="particles"></canvas>
+
+  <!-- Header -->
+  <header role="banner">
+    <div class="brand">
+      <div class="logo" aria-hidden="true">
+        <!-- small neon orb icon -->
+        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <defs>
+            <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="3.6" result="coloredBlur"/>
+              <feMerge>
+                <feMergeNode in="coloredBlur"/>
+                <feMergeNode in="SourceGraphic"/>
+              </feMerge>
+            </filter>
+          </defs>
+          <circle cx="12" cy="12" r="6" fill="url(#g1)" style="filter:url(#glow)"></circle>
+          <script type="text/ecmascript"><!-- noop --></script>
+        </svg>
+      </div>
+      <div>
+        <h1>I Wayan Radea</h1>
+        <p>Video Editor Magang & Frontend Developer</p>
+      </div>
+    </div>
+
+    <nav role="navigation" aria-label="Main">
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <main class="hero" role="main">
+    <div class="container">
+      <div class="intro">
+        <div class="eyebrow">
+          <span class="chip">Now: Open for internships & collabs</span>
+        </div>
+
+        <h2 class="neon">Hi, I'm I Wayan Radea</h2>
+        <h3>Video Editor Magang & Frontend Developer</h3>
+
+        <p class="lead">I blend cinematic edits with clean front-end code — building immersive micro-interactions, motion-driven UIs, and videos that slap. Currently crafting web experiences with a futuristic neon aesthetic.</p>
+
+        <div class="cta">
+          <a class="btn btn-primary" href="#contact" id="hireBtn" aria-label="Hire Me">Hire Me</a>
+          <a class="btn btn-ghost" href="#projects" aria-label="See My Work">See My Work</a>
+        </div>
+
+        <!-- projects preview small -->
+        <div class="projects" aria-hidden="false" style="margin-top:28px">
+          <div class="proj">
+            <div class="tag">Video — Shortform</div>
+            <p>Dynamic cuts + sound design for social ads (TikTok / Reels).</p>
+          </div>
+          <div class="proj">
+            <div class="tag">Frontend — UI</div>
+            <p>Interactive landing page with motion & microinteractions.</p>
+          </div>
+          <div class="proj">
+            <div class="tag">Motion — VFX</div>
+            <p>Color grading + subtle VFX transitions for cinematic vibes.</p>
+          </div>
+        </div>
+      </div>
+
+      <aside class="card" aria-label="Profile card">
+        <div class="avatar">
+          <!-- Placeholder avatar: replace src with your photo -->
+          <img src="assets/foto.jpg" alt="I Wayan Radea" class="profile-pic">
+        </div>
+        <div class="meta">
+          <h4 class="neon">I Wayan Radea</h4>
+          <p>Video Editor Magang • Frontend Developer</p>
+          <p style="margin-top:10px; color:var(--muted)">Email: <a href="mailto:radea@example.com" style="color:var(--neon); text-decoration:none; font-weight:700">radea@example.com</a></p>
+
+          <div style="margin-top:14px; display:flex; gap:8px">
+            <a class="btn btn-ghost" href="#" onclick="alert('Replace with real link')">Resume</a>
+            <a class="btn btn-primary" href="#projects">Portfolio</a>
+          </div>
+
+          <!-- small powered-by icon like sample -->
+          <div style="margin-top:12px; display:flex; align-items:center; gap:10px; opacity:0.95">
+            <button style="display:flex; gap:8px; align-items:center; border-radius:10px; padding:8px 10px; background:linear-gradient(90deg, rgba(255,255,255,0.01), rgba(0,0,0,0.02)); border:1px solid rgba(0,170,255,0.06); cursor:default">
+              <!-- copied style of svg you gave, simplified -->
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M22.2819 9.8211a5.9847 5.9847 0 0 0-.5157-4.9108 6.0462 6.0462 0 0 0-6.5098-2.9A6.0651 6.0651 0 0 0 4.9807 4.1818a5.9847 5.9847 0 0 0-3.9977 2.9 6.0462 6.0462 0 0 0 .7427 7.0966 5.98 5.98 0 0 0 .511 4.9107 6.051 6.051 0 0 0 6.5146 2.9001A5.9847 5.9847 0 0 0 13.2599 24a6.0557 6.0557 0 0 0 5.7718-4.2058 5.9894 5.9894 0 0 0 3.9977-2.9001 6.0557 6.0557 0 0 0-.7475-7.0729z" fill="#10A37F"/>
+              </svg>
+              <div style="font-size:0.78rem; color:var(--muted); display:flex; flex-direction:column; line-height:1">
+                <span style="font-weight:700; color:var(--neon); font-size:0.78rem">Powered By</span>
+                <span style="font-size:0.72rem">GPT-Omni</span>
+              </div>
+            </button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <!-- About -->
+  <section id="about" aria-labelledby="aboutTitle">
+    <div class="section-inner">
+      <h2 id="aboutTitle" class="neon">About</h2>
+      <p style="color:var(--muted); max-width:900px">
+        I'm focused on storytelling through motion and web UI. I make edits that keep attention and build interfaces that feel alive.
+        If you want slick social clips or a landing page with cinematic micro-interactions — hit me up.
+      </p>
+    </div>
+  </section>
+
+  <!-- Projects -->
+  <section id="projects" aria-labelledby="projectsTitle">
+    <div class="section-inner">
+      <h2 id="projectsTitle" class="neon">Selected Projects</h2>
+
+      <div style="display:grid; gap:16px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); margin-top:18px">
+        <!-- Replace these cards with real project links / embeds -->
+        <article class="proj" role="article">
+          <div class="tag">Social Ad</div>
+          <h4 style="margin:6px 0 0">Hypercut Promo — TikTok</h4>
+          <p>Shortform edits optimised for retention + dynamic captions.</p>
+        </article>
+
+        <article class="proj" role="article">
+          <div class="tag">Landing Page</div>
+          <h4 style="margin:6px 0 0">Neon UI — Interactive</h4>
+          <p>Landing with particle background, scroll micro interactions.</p>
+        </article>
+
+        <article class="proj" role="article">
+          <div class="tag">Motion</div>
+          <h4 style="margin:6px 0 0">Cinematic Opener</h4>
+          <p>VFX transitions, grade, and sound design for brand intro.</p>
+        </article>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" aria-labelledby="contactTitle">
+    <div class="section-inner">
+      <h2 id="contactTitle" class="neon">Contact</h2>
+
+      <div class="contact-card">
+        <div>
+          <p style="margin:0 0 6px; color:var(--muted)">Ready to collab? Send a quick mail or hit my socials.</p>
+          <p style="margin:0; font-weight:700"><a href="mailto:radea@example.com" style="color:var(--neon); text-decoration:none">radea@example.com</a></p>
+        </div>
+
+        <div style="display:flex; gap:10px;">
+          <a class="btn btn-ghost" href="https://wa.me/628123456789" target="_blank" rel="noopener">WhatsApp</a>
+          <a class="btn btn-primary" href="#" onclick="window.scrollTo({top:0,behavior:'smooth'})">Back to top</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    © <span id="year"></span> I Wayan Radea — Made with neon vibes ✨
+  </footer>
+
+  <!-- Scripts: particle system + small interactions -->
+  <script>
+    // set year
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Simple canvas particle system (subtle)
+    (function(){
+      const canvas = document.getElementById('particles');
+      const ctx = canvas.getContext('2d');
+      let W = canvas.width = innerWidth;
+      let H = canvas.height = innerHeight;
+      const particles = [];
+      const PCOUNT = Math.round((W*H)/90000); // auto density
+
+      const rand = (a,b) => Math.random()*(b-a)+a;
+
+      class P {
+        constructor(){
+          this.reset();
+        }
+        reset(){
+          this.x = rand(0,W);
+          this.y = rand(0,H);
+          this.vx = rand(-0.15,0.15);
+          this.vy = rand(-0.25,0.25);
+          this.size = rand(0.6,2.4);
+          this.life = rand(80,240);
+          this.maxLife = this.life;
+          this.hue = rand(190,220); // bluish
+        }
+        update(){
+          this.x += this.vx;
+          this.y += this.vy;
+          this.life--;
+          if (this.x < -10 || this.x > W+10 || this.y < -10 || this.y > H+10 || this.life<=0) this.reset();
+        }
+        draw(){
+          const alpha = Math.max(0, this.life/this.maxLife);
+          ctx.beginPath();
+          ctx.fillStyle = `rgba(0,170,255,${0.09*alpha})`;
+          ctx.shadowBlur = 18 * alpha;
+          ctx.shadowColor = 'rgba(0,170,255,0.7)';
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI*2);
+          ctx.fill();
+        }
+      }
+
+      function init(){
+        particles.length = 0;
+        W = canvas.width = innerWidth;
+        H = canvas.height = innerHeight;
+        const count = Math.max(20, Math.min(160, PCOUNT));
+        for(let i=0;i<count;i++) particles.push(new P());
+      }
+
+      function anim(){
+        ctx.clearRect(0,0,W,H);
+        // faint gradient overlay
+        const g = ctx.createLinearGradient(0,0,W,H);
+        g.addColorStop(0, 'rgba(0,0,0,0)');
+        g.addColorStop(1, 'rgba(0,0,0,0.2)');
+        ctx.fillStyle = g; ctx.fillRect(0,0,W,H);
+
+        for(const p of particles){ p.update(); p.draw(); }
+        requestAnimationFrame(anim);
+      }
+
+      window.addEventListener('resize', init);
+      init(); anim();
+
+      // subtle mouse parallax push
+      let mx = W/2, my = H/2;
+      addEventListener('mousemove', (e)=>{ mx = e.clientX; my = e.clientY; });
+      // gently push particles away from cursor
+      setInterval(()=>{
+        for(let i=0;i<3;i++){
+          const p = particles[Math.floor(Math.random()*particles.length)];
+          const dx = p.x - mx, dy = p.y - my;
+          const d = Math.sqrt(dx*dx + dy*dy) || 1;
+          if (d < 140) {
+            p.vx += (dx/d)*0.6;
+            p.vy += (dy/d)*0.6;
+          }
+        }
+      }, 120);
+
+
+    })();
+
+    // small accessibility: smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(a=>{
+      a.addEventListener('click', function(e){
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target){ e.preventDefault(); target.scrollIntoView({behavior:'smooth', block:'start'}); }
+      });
+    });
+
+    // Hire me button -> opens mail client with subject template
+    document.getElementById('hireBtn').addEventListener('click', function(e){
+      e.preventDefault();
+      window.location.href = "mailto:radea@example.com?subject=Hire%20I%20Wayan%20Radea&body=Hi%20Radea%2C%0A%0AI%27d%20like%20to%20discuss%20a%20project%20about%20...";
+    });
+
+  </script>
+<script>
+window.addEventListener("load", function() {
+  const loader = document.getElementById("loader");
+  setTimeout(() => {
+    loader.classList.add("loader-hidden");
+  }, 2000); // delay 2 detik
+});
+</script>
+</body>
+</html>
+
+</script>
+
+      <!-- 🎧 Tombol Musik Glow -->
+  <div class="music-btn" id="musicBtn" title="Play / Pause Music">
+    <div class="album-art"></div>
+    <svg id="musicIcon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none">
+      <path d="M9 18V5l12-2v13" stroke="#00faff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="6" cy="18" r="3" stroke="#00faff" stroke-width="2"/>
+      <circle cx="18" cy="16" r="3" stroke="#00faff" stroke-width="2"/>
+    </svg>
+  </div>
+
+  <!-- 🎵 Audio -->
+  <audio id="bgMusic" loop>
+    <source src="assets/bg-music.mp3" type="audio/mpeg">
+  </audio>
+
+  <style>
+    /* --- TOMBOL MUSIK FUTURISTIK --- */
+    .music-btn {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, #001820, #000);
+      border: 2px solid #00faff;
+      box-shadow: 0 0 25px #00faff, inset 0 0 15px #00faff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      cursor: pointer;
+      transition: 0.4s ease;
+      z-index: 9999;
+    }
+
+    .music-btn:hover {
+      transform: scale(1.1);
+      box-shadow: 0 0 40px #00faff, inset 0 0 20px #00faff;
+    }
+
+    /* --- Gambar Penyanyi (Album Art) --- */
+    .album-art {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-image: url('assets/singer.jpg'); /* GANTI gambar penyanyi lo di sini */
+      background-size: cover;
+      background-position: center;
+      border-radius: 50%;
+      filter: brightness(0.9) contrast(1.2);
+      transition: transform 0.3s ease;
+      z-index: 1;
+    }
+
+    /* --- Ikon Musik di Atas Gambar --- */
+    .music-btn svg {
+      width: 40px;
+      height: 40px;
+      z-index: 2;
+      filter: drop-shadow(0 0 8px #00faff);
+      transition: opacity 0.3s ease;
+    }
+
+    /* --- Rotasi saat Musik Play --- */
+    .music-btn.active .album-art {
+      animation: spin 6s linear infinite;
+      box-shadow: 0 0 25px #00faff;
+    }
+
+    .music-btn.active svg {
+      opacity: 0.3;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+  </style>
+
+  <script>
+    const music = document.getElementById('bgMusic');
+    const btn = document.getElementById('musicBtn');
+    const icon = document.getElementById('musicIcon');
+    let isPlaying = false;
+
+    btn.addEventListener('click', async () => {
+      try {
+        if (!isPlaying) {
+          await music.play();
+          btn.classList.add('active');
+        } else {
+          music.pause();
+          btn.classList.remove('active');
+        }
+        isPlaying = !isPlaying;
+      } catch (err) {
+        console.error('Audio error:', err);
+      }
+    });
+  </script>
+</body>
+</html>
+
